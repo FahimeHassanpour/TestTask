@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page-wrapper">
+    <header class="page-header">
+        <h1>Products</h1>
+        <p class="page-subtitle">Manage your product catalog</p>
+    </header>
+
+    <div class="page-card">
+        <div class="toolbar">
+            <wa-button
+                    id="loadBtn"
+                    type="button"
+                    size="large"
+                    pill
+                    variant="brand"
+                    hx-get="/products/load"
+                    hx-target="#productsContainer"
+                    hx-swap="innerHTML">
+
+                <wa-icon name="spinner" animation="spin"></wa-icon>
+                <span th:text="#{index.loadProducts}"></span>
+
+            </wa-button>
+        </div>
+        <div id="productsContainer"></div>
+    </div>
+</div>
+
+<script>
+    document.body.addEventListener('htmx:afterSwap', function (evt) {
+        if (evt.target.id === 'productsContainer') {
+            var loadBtn = document.getElementById('loadBtn');
+            if (loadBtn) loadBtn.remove();
+        }
+    });
+</script>
+</body>
+</html>

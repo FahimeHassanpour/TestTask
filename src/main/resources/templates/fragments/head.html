@@ -1,0 +1,103 @@
+<head th:fragment="head" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+    <script src="https://kit.webawesome.com/cb1882f13ce045c2.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --page-bg: var(--wa-color-surface-lowered);
+            --text-muted: var(--wa-color-text-quiet);
+        }
+        body {
+            background: var(--page-bg);
+            :root {
+                --app-font: var(--wa-font-family-body, system-ui);
+            }
+
+            body {
+                font-family: var(--app-font), sans-serif;
+            }
+
+            color: var(--wa-color-text-normal, #1a1d24);
+            margin: 0;
+            padding: var(--wa-space-l, 24px) var(--wa-space-m, 16px) var(--wa-space-2xl, 40px);
+            min-height: 100vh;
+        }
+        .site-header {
+            background: var(--wa-color-indigo-80);
+            color: var(--wa-color-brand-on-loud);
+            padding: var(--wa-space-s) var(--wa-space-l);
+            margin: calc(-1 * var(--wa-space-l)) calc(-1 * var(--wa-space-m)) var(--wa-space-l) calc(-1 * var(--wa-space-m));
+            box-shadow: var(--wa-shadow-m, 0 1px 3px rgba(0,0,0,0.1));
+        }
+        .site-header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--wa-space-m);
+        }
+        .page-wrapper { max-width: 1000px; margin: 0 auto; }
+        .page-wrapper.page-wrapper--narrow { max-width: 560px; }
+        .page-header { margin-bottom: var(--wa-space-l); }
+        .page-header h1 {
+            margin: 0 0 var(--wa-space-2xs);
+            font-size: var(--wa-font-size-2xl);
+            font-weight: var(--wa-font-weight-heading);
+            color: var(--wa-color-text-normal);
+        }
+        .page-subtitle { margin: 0; font-size: var(--wa-font-size-s); color: var(--text-muted); box-sizing: content-box}
+        .page-card {
+            background: var(--wa-color-surface-default);
+            border-radius: var(--wa-border-radius-l);
+            box-shadow: var(--wa-shadow-m);
+            padding: var(--wa-space-l);
+            border: 1px solid var(--wa-color-surface-border);
+        }
+        .toolbar { display: flex; flex-wrap: wrap; gap: var(--wa-space-s); margin-bottom: var(--wa-space-l); }
+        .form-container { margin: var(--wa-space-l) 0 var(--wa-space-xl); }
+        .product-form { margin-top: var(--wa-space-m); }
+        .form-header { margin-bottom: var(--wa-space-m); }
+        .form-header h2 { margin: 0 0 var(--wa-space-2xs); font-size: var(--wa-font-size-l); }
+        .form-subtitle { margin: 0; font-size: var(--wa-font-size-xs); color: var(--text-muted); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--wa-space-s); }
+        .field { margin-bottom: var(--wa-space-s); }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: var(--wa-border-radius-m);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            background: var(--wa-color-surface-default);
+        }
+
+        table { border: 3px solid var(--wa-color-surface-border); }
+        th, td { border: 3px solid var(--wa-color-surface-border); }
+        th, td { padding: var(--wa-space-s) var(--wa-space-m); text-align: left; font-size: var(--wa-font-size-s); }
+        th { background: var(--wa-color-surface-raised); font-weight: var(--wa-font-weight-heading); color: var(--wa-color-text-normal); }
+        tbody tr:nth-child(even) { background: var(--wa-color-surface-default); }
+        tbody tr { transition: background 0.15s ease; }
+        tbody tr:hover { background: #edf2f6 !important; }
+        .error-box {
+            background: var(--wa-color-danger-fill-quiet);
+            border: 1px solid var(--wa-color-danger-border-normal);
+            color: var(--wa-color-danger-on-loud);
+            border-radius: var(--wa-border-radius-l);
+            padding: var(--wa-space-s) var(--wa-space-m);
+            margin-bottom: var(--wa-space-s);
+            font-size: var(--wa-font-size-xs);
+        }
+        .error-box ul { margin: 0; padding-left: var(--wa-space-l); }
+        wa-dialog { --width: 600px; }
+        #addProductDialog { --width: 600px; --spacing: var(--wa-space-s); }
+        #addProductDialog::part(body) { overflow: hidden; }
+        .toolbar wa-button {
+            transition: opacity 0.2s ease;
+        }
+        .toolbar wa-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>

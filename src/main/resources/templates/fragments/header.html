@@ -1,0 +1,16 @@
+<header th:fragment="header" class="site-header">
+    <div class="site-header-inner">
+        <nav class="site-nav">
+            <wa-button th:href="@{/}" variant="neutral" size="small" appearance="plain" class="header-link">
+                <wa-icon slot="start" name="house"></wa-icon>
+                <span th:text="#{nav.home}"></span>
+            </wa-button>
+            <wa-button  hx-get="/products/load"
+                        hx-target="#productsContainer"
+                        hx-swap="innerHTML" variant="neutral" size="small" appearance="plain" class="header-link">
+                <wa-icon slot="start" name="list"></wa-icon>
+                <span th:text="#{nav.allProducts}"></span>
+            </wa-button>
+        </nav>
+    </div>
+</header>

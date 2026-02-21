@@ -12,4 +12,8 @@ class ProductService(private val productRepository: ProductRepository) {
     fun addProduct(product: Product) {
         productRepository.save(product)
     }
+    fun searchByTitle(query: String): List<Product> {
+        return if (query.isBlank()) productRepository.findAll()
+        else productRepository.findByTitleContaining(query)
+    }
 }

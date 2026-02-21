@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head}"></head>
+<body class="page-home">
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
@@ -34,6 +35,7 @@
 <script>
     document.body.addEventListener('htmx:afterSwap', function (evt) {
         if (evt.target.id === 'productsContainer') {
+            document.body.classList.add('products-loaded');
             var loadBtn = document.getElementById('loadBtn');
             if (loadBtn) loadBtn.remove();
         }

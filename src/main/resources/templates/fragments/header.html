@@ -11,6 +11,10 @@
                 <wa-icon slot="start" name="list"></wa-icon>
                 <span th:text="#{nav.allProducts}"></span>
             </wa-button>
+            <wa-button th:href="@{/search}" variant="neutral" size="small" appearance="plain" class="header-link search-nav" id="headerSearchLink">
+                <wa-icon slot="start" name="magnifying-glass"></wa-icon>
+                <span th:text="#{nav.search}"></span>
+            </wa-button>
         </nav>
     </div>
 </header>

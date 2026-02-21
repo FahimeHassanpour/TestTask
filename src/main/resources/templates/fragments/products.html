@@ -1,12 +1,4 @@
-<div th:fragment="productsTableWithButton" xmlns:hx-on="http://www.w3.org/1999/xhtml">
-
-    <div class="toolbar">
-        <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
-            <wa-icon slot="start" name="plus"></wa-icon>
-            <span th:text="#{form.addProduct}"></span>
-        </wa-button>
-    </div>
-
+<th:block th:fragment="productsTable" xmlns:th="http://www.thymeleaf.org">
     <table class="wa-zebra-rows wa-hover-rows">
         <thead>
         <tr>
@@ -29,8 +21,18 @@
         </tr>
         </tbody>
     </table>
+</th:block>
 
-    <!-- ADD PRODUCT DIALOG -->
+<div th:fragment="productsTableWithButton" xmlns:th="http://www.thymeleaf.org" xmlns:hx-on="http://www.w3.org/1999/xhtml">
+    <div class="toolbar">
+        <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
+            <wa-icon slot="start" name="plus"></wa-icon>
+            <span th:text="#{form.addProduct}"></span>
+        </wa-button>
+    </div>
+
+    <th:block th:replace="~{this :: productsTable}"></th:block>
+
     <wa-dialog id="addProductDialog" label="Add Product" light-dismiss>
         <form id="addProductForm"
               hx-post="/products/add"
@@ -38,7 +40,7 @@
               hx-swap="innerHTML"
               hx-on::after-request="if(event.detail.successful) closeAddDialog()">
             <wa-callout variant="primary" open>
-                <span th:text="#{form.addSubtitle}">
+                <span th:text="#{form.addSubtitle}"></span>
             </wa-callout>
             <wa-divider></wa-divider>
             <wa-card>
@@ -74,7 +76,6 @@
         function closeAddDialog() {
             document.getElementById('addProductDialog').open = false;
         }
-
         document.body.addEventListener('htmx:afterSwap', function(evt) {
             if (evt.detail.target.id === 'productsContainer') closeAddDialog();
         });

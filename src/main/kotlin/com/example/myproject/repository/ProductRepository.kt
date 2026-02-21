@@ -45,5 +45,32 @@ class ProductRepository(
             }
             .list()
     }
+
+
+    fun findByTitleContaining(query: String): List<Product> {
+        val pattern = "%${query.trim().replace("%", "\\%")}%"
+        return jdbcClient.sql(
+            """
+        SELECT id, title, vendor, product_type, price
+        FROM products
+        WHERE title ILIKE :pattern
+        ORDER BY title
+        LIMIT 50
+        """
+        )
+            .param("pattern", pattern)
+            .query(::mapRow)
+            .list()
+    }
+
+    private fun mapRow(rs: java.sql.ResultSet, rowNum: Int) = Product(
+        id = rs.getLong("id"),
+        title = rs.getString("title"),
+        vendor = rs.getString("vendor"),
+        productType = rs.getString("product_type"),
+        price = rs.getDouble("price")
+    )
 }
+
+
 

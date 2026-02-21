@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page-wrapper">
+    <header class="page-header">
+        <h1 th:text="#{search.title}">Search products</h1>
+        <p class="page-subtitle" th:text="#{search.subtitle}">Search by title; results update as you type.</p>
+    </header>
+
+    <div class="page-card">
+        <div class="search-toolbar">
+            <wa-input name="q"
+                      type="search"
+                      th:placeholder="#{search.placeholder}"
+                      size="large"
+                      appearance="outlined"
+                      autocomplete="off"
+                      hx-get="/products/search"
+                      hx-trigger="keyup changed delay:300ms, search"
+                      hx-target="#searchResults"
+                      hx-include="this"
+                      hx-indicator="#searchSpinner">
+                <wa-icon slot="start" name="magnifying-glass"></wa-icon>
+            </wa-input>
+            <wa-spinner id="searchSpinner" class="search-spinner" style="display: none;"></wa-spinner>
+        </div>
+        <div class="search-actions">
+            <wa-button th:href="@{/}" variant="accent" size="medium" appearance="filled-outlined" class="back-link">
+                <wa-icon slot="start" name="arrow-left"></wa-icon>
+                <span th:text="#{nav.backToMain}"></span>
+            </wa-button>
+        </div>
+        <div id="searchResults" class="search-results"
+             th:insert="~{fragments/products :: productsTable}">
+            <p class="search-hint" th:text="#{search.hint}">Type above to search by product title.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        if (evt.detail.pathInfo.requestPath === '/products/search') {
+            var spinner = document.getElementById('searchSpinner');
+            if (spinner) spinner.style.display = 'inline-block';
+        }
+    });
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.detail.pathInfo.requestPath === '/products/search') {
+            var spinner = document.getElementById('searchSpinner');
+            if (spinner) spinner.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

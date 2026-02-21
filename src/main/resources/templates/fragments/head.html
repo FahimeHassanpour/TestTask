@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
-    <script src="https://kit.webawesome.com/cb1882f13ce045c2.js" crossorigin="anonymous"></script>
+    <script src="https://kit.webawesome.com/a317929e80b2446d.js" crossorigin="anonymous"></script>
     <style>
         :root {
             --page-bg: var(--wa-color-surface-lowered);
@@ -99,5 +99,16 @@
         .toolbar wa-button:hover {
             opacity: 0.9;
         }
+
+        .search-toolbar { display: flex; align-items: center; gap: var(--wa-space-s); margin-bottom: var(--wa-space-l); }
+        .search-toolbar wa-input { flex: 1; max-width: 300px; }
+        .search-spinner { flex-shrink: 0; }
+        .search-results { min-height: 120px; }
+        .search-hint { margin: 0; font-size: var(--wa-font-size-s); color: var(--text-muted); }
+
+        /* Hide Search in header on home page until products are loaded */
+        body.page-home .search-nav { display: none !important; }
+        body.page-home.products-loaded .search-nav { display: inline-flex !important; }
+        .search-actions { margin-bottom: var(--wa-space-l); }
     </style>
 </head>

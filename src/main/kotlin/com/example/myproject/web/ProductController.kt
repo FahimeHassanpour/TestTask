@@ -47,4 +47,20 @@ class ProductController(private val productService: ProductService) {
         model.addAttribute("products", productService.getAllProducts())
         return "products-list"
     }
+
+    @GetMapping("/search")
+    fun searchPage(model: Model): String {
+        model.addAttribute("products", productService.getAllProducts())
+        return "search"
+    }
+
+    @GetMapping("/products/search")
+    fun searchProducts(
+        @RequestParam(required = false, defaultValue = "") q: String,
+        model: Model
+    ): String {
+        model.addAttribute("products", productService.searchByTitle(q))
+        return "fragments/products :: productsTable"
+    }
+
 }

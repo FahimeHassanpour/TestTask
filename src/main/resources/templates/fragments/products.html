@@ -8,6 +8,7 @@
             <th th:text="#{table.Vendor}"></th>
             <th th:text="#{table.ProductType}"></th>
             <th th:text="#{table.Price}"></th>
+            <th th:text="#{table.actions}"></th>
         </tr>
         </thead>
         <tbody>
@@ -18,6 +19,14 @@
             <td th:text="${product.vendor}"></td>
             <td th:text="${product.productType}"></td>
             <td th:text="${product.price}"></td>
+            <td>
+                <a th:href="@{/products/{id}/edit(id=${product.id})}" style="text-decoration: none;">
+                    <wa-button variant="neutral" size="small" appearance="outlined">
+                        <wa-icon slot="start" name="pen-to-square"></wa-icon>
+                        <span th:text="#{form.edit}"></span>
+                    </wa-button>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

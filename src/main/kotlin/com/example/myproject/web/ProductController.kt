@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.*
 class ProductController(private val productService: ProductService) {
 
     @GetMapping("/")
-    fun mainPage(): String {
+    fun mainPage(
+        @RequestParam(required = false) loadProducts: String?,
+        model: Model
+    ): String {
+        if (loadProducts != null) {
+            model.addAttribute("products", productService.getAllProducts())
+            model.addAttribute("showProductsTable", true)
+        }
         return "index"
     }
 
@@ -63,4 +70,24 @@ class ProductController(private val productService: ProductService) {
         return "fragments/products :: productsTable"
     }
 
+    @GetMapping("/products/{id}/edit")
+    fun editProductPage(@PathVariable id: Long, model: Model): String {
+        val product = productService.getProductById(id)
+            ?: return "redirect:/"
+        model.addAttribute("product", product)
+        return "product-edit"
+    }
+
+    @PostMapping("/products/{id}/edit")
+    fun updateProduct(
+        @PathVariable id: Long,
+        @RequestParam title: String,
+        @RequestParam vendor: String,
+        @RequestParam productType: String,
+        @RequestParam price: Double
+    ): String {
+        val product = Product(id, title, vendor, productType, price)
+        productService.updateProduct(product)
+        return "redirect:/?loadProducts=1"
+    }
 }

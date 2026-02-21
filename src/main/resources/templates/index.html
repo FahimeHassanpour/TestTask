@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head}"></head>
-<body class="page-home">
-<body>
+<body class="page-home" th:classappend="${showProductsTable == true} ? 'products-loaded' : ''">
 <div th:replace="~{fragments/header :: header}"></div>
 
 <div class="page-wrapper">
@@ -12,7 +11,7 @@
     </header>
 
     <div class="page-card">
-        <div class="toolbar">
+        <div class="toolbar" th:if="${showProductsTable != true}">
             <wa-button
                     id="loadBtn"
                     type="button"
@@ -22,13 +21,13 @@
                     hx-get="/products/load"
                     hx-target="#productsContainer"
                     hx-swap="innerHTML">
-
                 <wa-icon name="spinner" animation="spin"></wa-icon>
                 <span th:text="#{index.loadProducts}"></span>
-
             </wa-button>
         </div>
-        <div id="productsContainer"></div>
+        <div id="productsContainer">
+            <th:block th:if="${showProductsTable == true}" th:insert="~{fragments/products :: productsTableWithButton}"></th:block>
+        </div>
     </div>
 </div>
 

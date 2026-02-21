@@ -16,4 +16,9 @@ class ProductService(private val productRepository: ProductRepository) {
         return if (query.isBlank()) productRepository.findAll()
         else productRepository.findByTitleContaining(query)
     }
+    fun getProductById(id: Long): Product? = productRepository.findById(id)
+
+    fun updateProduct(product: Product) {
+        productRepository.update(product)
+    }
 }

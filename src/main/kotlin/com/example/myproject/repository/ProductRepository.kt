@@ -34,29 +34,46 @@ class ProductRepository(
             LIMIT 50
             """
         )
-            .query { rs, _ ->
-                Product(
-                    id = rs.getLong("id"),
-                    title = rs.getString("title"),
-                    vendor = rs.getString("vendor"),
-                    productType = rs.getString("product_type"),
-                    price = rs.getDouble("price")
-                )
-            }
+            .query(::mapRow)
             .list()
     }
 
+    fun findAllOrderByPriceAsc(): List<Product> {
+        return jdbcClient.sql(
+            """
+            SELECT id, title, vendor, product_type, price
+            FROM products
+            ORDER BY price ASC NULLS LAST, id ASC
+            LIMIT 50
+            """
+        )
+            .query(::mapRow)
+            .list()
+    }
+
+    fun findAllOrderByPriceDesc(): List<Product> {
+        return jdbcClient.sql(
+            """
+            SELECT id, title, vendor, product_type, price
+            FROM products
+            ORDER BY price DESC NULLS LAST, id ASC
+            LIMIT 50
+            """
+        )
+            .query(::mapRow)
+            .list()
+    }
 
     fun findByTitleContaining(query: String): List<Product> {
         val pattern = "%${query.trim().replace("%", "\\%")}%"
         return jdbcClient.sql(
             """
-        SELECT id, title, vendor, product_type, price
-        FROM products
-        WHERE title ILIKE :pattern
-        ORDER BY title
-        LIMIT 50
-        """
+            SELECT id, title, vendor, product_type, price
+            FROM products
+            WHERE title ILIKE :pattern
+            ORDER BY title
+            LIMIT 50
+            """
         )
             .param("pattern", pattern)
             .query(::mapRow)
@@ -74,9 +91,9 @@ class ProductRepository(
     fun findById(id: Long): Product? {
         return jdbcClient.sql(
             """
-        SELECT id, title, vendor, product_type, price
-        FROM products WHERE id = :id
-        """
+            SELECT id, title, vendor, product_type, price
+            FROM products WHERE id = :id
+            """
         )
             .param("id", id)
             .query(::mapRow)
@@ -87,10 +104,10 @@ class ProductRepository(
     fun update(product: Product) {
         jdbcClient.sql(
             """
-        UPDATE products
-        SET title = :title, vendor = :vendor, product_type = :productType, price = :price
-        WHERE id = :id
-        """
+            UPDATE products
+            SET title = :title, vendor = :vendor, product_type = :productType, price = :price
+            WHERE id = :id
+            """
         )
             .param("id", product.id)
             .param("title", product.title)
@@ -106,6 +123,3 @@ class ProductRepository(
             .update()
     }
 }
-
-
-

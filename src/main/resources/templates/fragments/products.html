@@ -41,11 +41,34 @@
 </th:block>
 
 <div th:fragment="productsTableWithButton" xmlns:th="http://www.thymeleaf.org" xmlns:hx-on="http://www.w3.org/1999/xhtml">
+    <style>
+        .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--wa-space-s, 8px); }
+        .toolbar-right { display: flex; gap: var(--wa-space-2xs, 4px); margin-left: auto; }
+        .toolbar .sort-btn { max-width: 140px; min-width: 0; }
+    </style>
     <div class="toolbar">
-        <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
-            <wa-icon slot="start" name="plus"></wa-icon>
-            <span th:text="#{form.addProduct}"></span>
-        </wa-button>
+        <div class="toolbar-left">
+            <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
+                <wa-icon slot="start" name="plus"></wa-icon>
+                <span th:text="#{form.addProduct}"></span>
+            </wa-button>
+        </div>
+        <div class="toolbar-right">
+            <wa-button class="sort-btn" variant="success" size="small" appearance="filled" type="button"
+                       hx-get="/products/load?sort=price_asc"
+                       hx-target="#productsContainer"
+                       hx-swap="innerHTML">
+                <wa-icon slot="start" name="arrow-down"></wa-icon>
+                <span th:text="#{sort.byLowerPrice}"></span>
+            </wa-button>
+            <wa-button class="sort-btn" variant="danger" size="small" appearance="filled" type="button"
+                       hx-get="/products/load?sort=price_desc"
+                       hx-target="#productsContainer"
+                       hx-swap="innerHTML">
+                <wa-icon slot="start" name="arrow-up"></wa-icon>
+                <span th:text="#{sort.byHigherPrice}"></span>
+            </wa-button>
+        </div>
     </div>
 
     <th:block th:replace="~{this :: productsTable}"></th:block>

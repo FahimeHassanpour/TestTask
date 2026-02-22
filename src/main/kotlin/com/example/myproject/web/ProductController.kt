@@ -22,12 +22,18 @@ class ProductController(private val productService: ProductService) {
     }
 
     @GetMapping("/products/load")
-    fun loadProducts(model: Model): String {
-        val products = productService.getAllProducts()
+    fun loadProducts(
+        @RequestParam(required = false) sort: String?,
+        model: Model
+    ): String {
+        val products = when (sort) {
+            "price_asc" -> productService.getProductsSortedByPriceAsc()
+            "price_desc" -> productService.getProductsSortedByPriceDesc()
+            else -> productService.getAllProducts()
+        }
         model.addAttribute("products", products)
         return "fragments/products :: productsTableWithButton"
     }
-
     @PostMapping("/products/add")
     fun addProduct(
         @RequestParam id: Long,

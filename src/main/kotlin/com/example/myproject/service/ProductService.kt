@@ -24,4 +24,9 @@ class ProductService(private val productRepository: ProductRepository) {
     fun deleteProduct(id: Long) {
         productRepository.deleteById(id)
     }
+
+    fun getProductsSortedByPrice(): List<Product> = productRepository.findAllOrderByPriceAsc()
+
+    fun getProductsSortedByPriceAsc(): List<Product> = productRepository.findAllOrderByPriceAsc()
+    fun getProductsSortedByPriceDesc(): List<Product> = productRepository.findAllOrderByPriceDesc()
 }

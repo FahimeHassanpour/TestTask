@@ -20,12 +20,20 @@
             <td th:text="${product.productType}"></td>
             <td th:text="${product.price}"></td>
             <td>
-                <a th:href="@{/products/{id}/edit(id=${product.id})}" style="text-decoration: none;">
-                    <wa-button variant="neutral" size="small" appearance="outlined">
-                        <wa-icon slot="start" name="pen-to-square"></wa-icon>
-                        <span th:text="#{form.edit}"></span>
+                <div class="action-buttons">
+                    <a th:href="@{/products/{id}/edit(id=${product.id})}" style="text-decoration: none;">
+                        <wa-button variant="neutral" size="small" appearance="outlined">
+                            <wa-icon slot="start" name="pen-to-square"></wa-icon>
+                            <span th:text="#{form.edit}"></span>
+                        </wa-button>
+                    </a>
+                    <wa-button variant="danger" size="small" appearance="outlined" type="button"
+                               th:attr="data-id=${product.id}"
+                               onclick="window.openDeleteDialog(this)">
+                        <wa-icon slot="start" name="trash"></wa-icon>
+                        <span th:text="#{delete.button}"></span>
                     </wa-button>
-                </a>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -78,6 +86,12 @@
         <wa-button slot="footer" type="submit" variant="success" form="addProductForm">Add Product</wa-button>
     </wa-dialog>
 
+    <wa-dialog id="deleteProductDialog" th:attr="aria-label=#{delete.dialogTitle}" light-dismiss>
+        <p th:text="#{delete.confirmMessage}"></p>
+        <wa-button slot="footer" variant="neutral" onclick="window.closeDeleteDialog()" th:text="#{nav.cancel}"></wa-button>
+        <wa-button slot="footer" variant="danger" type="button" id="deleteProductConfirmBtn" onclick="window.confirmDelete()" th:text="#{delete.confirm}"></wa-button>
+    </wa-dialog>
+
     <script>
         function openAddDialog() {
             document.getElementById('addProductDialog').open = true;
@@ -88,5 +102,26 @@
         document.body.addEventListener('htmx:afterSwap', function(evt) {
             if (evt.detail.target.id === 'productsContainer') closeAddDialog();
         });
+
+        window.deleteProductId = null;
+        window.deleteTargetId = 'productsContainer';
+        window.openDeleteDialog = function(btn) {
+            window.deleteProductId = btn.getAttribute('data-id');
+            var container = btn.closest('[id]');
+            window.deleteTargetId = container ? container.id : 'productsContainer';
+            var dialog = document.getElementById('deleteProductDialog');
+            if (dialog) dialog.open = true;
+        };
+        window.closeDeleteDialog = function() {
+            var dialog = document.getElementById('deleteProductDialog');
+            if (dialog) dialog.open = false;
+        };
+        window.confirmDelete = function() {
+            if (!window.deleteProductId) return;
+            var isSearch = (window.deleteTargetId === 'searchResults');
+            var url = '/products/' + window.deleteProductId + '/delete?target=' + (isSearch ? 'search' : 'main');
+            htmx.ajax('POST', url, { target: '#' + window.deleteTargetId, swap: 'innerHTML' })
+                .then(function() { window.closeDeleteDialog(); });
+        };
     </script>
 </div>

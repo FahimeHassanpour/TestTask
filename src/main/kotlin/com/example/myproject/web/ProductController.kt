@@ -90,4 +90,18 @@ class ProductController(private val productService: ProductService) {
         productService.updateProduct(product)
         return "redirect:/?loadProducts=1"
     }
+
+    @PostMapping("/products/{id}/delete")
+    fun deleteProduct(
+        @PathVariable id: Long,
+        @RequestParam(required = false, defaultValue = "main") target: String,
+        model: Model
+    ): String {
+        productService.deleteProduct(id)
+        model.addAttribute("products", productService.getAllProducts())
+        return if (target == "search")
+            "fragments/products :: productsTable"
+        else
+            "fragments/products :: productsTableWithButton"
+    }
 }

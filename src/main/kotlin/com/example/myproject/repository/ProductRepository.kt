@@ -99,6 +99,12 @@ class ProductRepository(
             .param("price", product.price)
             .update()
     }
+
+    fun deleteById(id: Long) {
+        jdbcClient.sql("DELETE FROM products WHERE id = :id")
+            .param("id", id)
+            .update()
+    }
 }
 
 

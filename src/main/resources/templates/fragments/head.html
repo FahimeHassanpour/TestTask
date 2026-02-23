@@ -11,21 +11,14 @@
         }
         body {
             background: var(--page-bg);
-            :root {
-                --app-font: var(--wa-font-family-body, system-ui);
-            }
-
-            body {
-                font-family: var(--app-font), sans-serif;
-            }
-
-            color: var(--wa-color-text-normal, #1a1d24);
+            font-family: var(--wa-font-family-body, system-ui), sans-serif;
+            color: var(--wa-color-text-normal);
             margin: 0;
             padding: var(--wa-space-l, 24px) var(--wa-space-m, 16px) var(--wa-space-2xl, 40px);
             min-height: 100vh;
         }
         .site-header {
-            background: var(--wa-color-indigo-80);
+            background: var(--wa-color-gray-70);
             color: var(--wa-color-brand-on-loud);
             padding: var(--wa-space-s) var(--wa-space-l);
             margin: calc(-1 * var(--wa-space-l)) calc(-1 * var(--wa-space-m)) var(--wa-space-l) calc(-1 * var(--wa-space-m));
@@ -39,6 +32,7 @@
             justify-content: space-between;
             gap: var(--wa-space-m);
         }
+        .site-nav-right { margin-left: auto; }
         .page-wrapper { max-width: 1000px; margin: 0 auto; }
         .page-wrapper.page-wrapper--narrow { max-width: 560px; }
         .page-header { margin-bottom: var(--wa-space-l); }
@@ -48,7 +42,7 @@
             font-weight: var(--wa-font-weight-heading);
             color: var(--wa-color-text-normal);
         }
-        .page-subtitle { margin: 0; font-size: var(--wa-font-size-s); color: var(--text-muted); box-sizing: content-box}
+        .page-subtitle { margin: 0; font-size: var(--wa-font-size-s); color: var(--text-muted); box-sizing: content-box; }
         .page-card {
             background: var(--wa-color-surface-default);
             border-radius: var(--wa-border-radius-l);
@@ -72,14 +66,13 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             background: var(--wa-color-surface-default);
         }
-
         table { border: 3px solid var(--wa-color-surface-border); }
         th, td { border: 3px solid var(--wa-color-surface-border); }
         th, td { padding: var(--wa-space-s) var(--wa-space-m); text-align: left; font-size: var(--wa-font-size-s); }
         th { background: var(--wa-color-surface-raised); font-weight: var(--wa-font-weight-heading); color: var(--wa-color-text-normal); }
         tbody tr:nth-child(even) { background: var(--wa-color-surface-default); }
         tbody tr { transition: background 0.15s ease; }
-        tbody tr:hover { background: #edf2f6 !important; }
+        tbody tr:hover { background: var(--wa-color-surface-default); }
         .error-box {
             background: var(--wa-color-danger-fill-quiet);
             border: 1px solid var(--wa-color-danger-border-normal);
@@ -93,12 +86,8 @@
         wa-dialog { --width: 600px; }
         #addProductDialog { --width: 600px; --spacing: var(--wa-space-s); }
         #addProductDialog::part(body) { overflow: hidden; }
-        .toolbar wa-button {
-            transition: opacity 0.2s ease;
-        }
-        .toolbar wa-button:hover {
-            opacity: 0.9;
-        }
+        .toolbar wa-button { transition: opacity 0.2s ease; }
+        .toolbar wa-button:hover { opacity: 0.9; }
 
         .search-toolbar { display: flex; align-items: center; gap: var(--wa-space-s); margin-bottom: var(--wa-space-l); }
         .search-toolbar wa-input { flex: 1; max-width: 300px; }
@@ -106,10 +95,20 @@
         .search-results { min-height: 120px; }
         .search-hint { margin: 0; font-size: var(--wa-font-size-s); color: var(--text-muted); }
 
-        /* Hide Search in header on home page until products are loaded */
         body.page-home .search-nav { display: none !important; }
         body.page-home.products-loaded .search-nav { display: inline-flex !important; }
         .search-actions { margin-bottom: var(--wa-space-l); }
-        .action-buttons { display: flex; flex-wrap: wrap; gap: var(--wa-space-2xs, 4px); align-items: center; }
+        .action-buttons { display: flex; flex-wrap: nowrap; gap: var(--wa-space-2xs, 4px); align-items: center; }
+
+        .th-with-icon {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .th-with-icon wa-icon { flex-shrink: 0; }
+
+        .toolbar-right .sort-btn wa-icon { --animation-duration: 1s; }
     </style>
 </head>

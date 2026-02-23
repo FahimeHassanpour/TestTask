@@ -2,13 +2,48 @@
     <table class="wa-zebra-rows wa-hover-rows">
         <thead>
         <tr>
-            <th th:text="#{table.num}"></th>
-            <th th:text="#{table.ID}"></th>
-            <th th:text="#{table.Title}"></th>
-            <th th:text="#{table.Vendor}"></th>
-            <th th:text="#{table.ProductType}"></th>
-            <th th:text="#{table.Price}"></th>
-            <th th:text="#{table.actions}"></th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="list-ol"></wa-icon>
+                    <span th:text="#{table.num}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="hashtag"></wa-icon>
+                    <span th:text="#{table.ID}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="align-left"></wa-icon>
+                    <span th:text="#{table.Title}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="user"></wa-icon>
+                    <span th:text="#{table.Vendor}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="tag"></wa-icon>
+                    <span th:text="#{table.ProductType}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="dollar-sign"></wa-icon>
+                    <span th:text="#{table.Price}"></span>
+                </span>
+            </th>
+            <th>
+                <span class="th-with-icon">
+                    <wa-icon name="screwdriver-wrench"></wa-icon>
+                    <span th:text="#{table.actions}"></span>
+                </span>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -22,12 +57,12 @@
             <td>
                 <div class="action-buttons">
                     <a th:href="@{/products/{id}/edit(id=${product.id})}" style="text-decoration: none;">
-                        <wa-button variant="neutral" size="small" appearance="outlined">
+                        <wa-button variant="neutral" size="small" appearance="filled-outlined">
                             <wa-icon slot="start" name="pen-to-square"></wa-icon>
                             <span th:text="#{form.edit}"></span>
                         </wa-button>
                     </a>
-                    <wa-button variant="danger" size="small" appearance="outlined" type="button"
+                    <wa-button variant="danger" size="small" appearance="accent" type="button"
                                th:attr="data-id=${product.id}"
                                onclick="window.openDeleteDialog(this)">
                         <wa-icon slot="start" name="trash"></wa-icon>
@@ -48,24 +83,26 @@
     </style>
     <div class="toolbar">
         <div class="toolbar-left">
-            <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
-                <wa-icon slot="start" name="plus"></wa-icon>
-                <span th:text="#{form.addProduct}"></span>
-            </wa-button>
+            <wa-animation name="bounce" easing="ease-in-out" duration="1500" play>
+                <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
+                    <wa-icon slot="start" name="plus"></wa-icon>
+                    <span th:text="#{form.addProduct}"></span>
+                </wa-button>
+            </wa-animation>
         </div>
         <div class="toolbar-right">
             <wa-button class="sort-btn" variant="success" size="small" appearance="filled" type="button"
                        hx-get="/products/load?sort=price_asc"
                        hx-target="#productsContainer"
                        hx-swap="innerHTML">
-                <wa-icon slot="start" name="arrow-down"></wa-icon>
+                <wa-icon slot="start" name="arrow-down" animation="beat"></wa-icon>
                 <span th:text="#{sort.byLowerPrice}"></span>
             </wa-button>
             <wa-button class="sort-btn" variant="danger" size="small" appearance="filled" type="button"
                        hx-get="/products/load?sort=price_desc"
                        hx-target="#productsContainer"
                        hx-swap="innerHTML">
-                <wa-icon slot="start" name="arrow-up"></wa-icon>
+                <wa-icon slot="start" name="arrow-up" animation="beat"></wa-icon>
                 <span th:text="#{sort.byHigherPrice}"></span>
             </wa-button>
         </div>

@@ -64,7 +64,7 @@ class ProductController(private val productService: ProductService) {
     @GetMapping("/search")
     fun searchPage(model: Model): String {
         model.addAttribute("products", productService.getAllProducts())
-        return "search"
+        return "product_search"   // was "search"
     }
 
     @GetMapping("/products/search")

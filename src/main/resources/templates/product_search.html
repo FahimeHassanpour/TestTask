@@ -5,13 +5,13 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <div class="page-wrapper">
-    <header class="page-header">
-        <h1 th:text="#{search.title}">Search products</h1>
-        <p class="page-subtitle" th:text="#{search.subtitle}">Search by title; results update as you type.</p>
+    <header class="page-header wa-stack wa-gap-2xs">
+        <h1 class="wa-heading-2xl" th:text="#{search.title}">Search products</h1>
+        <p class="wa-caption-s wa-color-text-quiet" th:text="#{search.subtitle}">Search by title; results update as you type.</p>
     </header>
 
     <div class="page-card">
-        <div class="search-toolbar">
+        <div class="search-toolbar wa-cluster wa-gap-s toolbar-block">
             <wa-input name="q"
                       type="search"
                       th:placeholder="#{search.placeholder}"
@@ -27,7 +27,7 @@
             </wa-input>
             <wa-spinner id="searchSpinner" class="search-spinner" style="display: none;"></wa-spinner>
         </div>
-        <div class="search-actions">
+        <div class="search-actions toolbar-block">
             <wa-button th:href="@{/}" variant="accent" size="medium" appearance="filled-outlined" class="back-link">
                 <wa-icon slot="start" name="arrow-left"></wa-icon>
                 <span th:text="#{nav.backToMain}"></span>
@@ -35,7 +35,7 @@
         </div>
         <div id="searchResults" class="search-results"
              th:insert="~{fragments/products :: productsTable}">
-            <p class="search-hint" th:text="#{search.hint}">Type above to search by product title.</p>
+            <p class="wa-caption-s wa-color-text-quiet" th:text="#{search.hint}">Type above to search by product title.</p>
         </div>
     </div>
 </div>

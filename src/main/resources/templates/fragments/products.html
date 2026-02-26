@@ -76,21 +76,16 @@
 </th:block>
 
 <div th:fragment="productsTableWithButton" xmlns:th="http://www.thymeleaf.org" xmlns:hx-on="http://www.w3.org/1999/xhtml">
-    <style>
-        .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--wa-space-s, 8px); }
-        .toolbar-right { display: flex; gap: var(--wa-space-2xs, 4px); margin-left: auto; }
-        .toolbar .sort-btn { max-width: 140px; min-width: 0; }
-    </style>
-    <div class="toolbar">
-        <div class="toolbar-left">
-            <wa-animation name="bounce" easing="ease-in-out" duration="1500" play>
+    <div class="toolbar wa-cluster wa-gap-s toolbar-block wa-flank:end">
+        <div class="wa-cluster wa-gap-s">
+            <wa-animation name="bounce" easing="ease-in-out" duration="2000" play>
                 <wa-button class="add-product-btn" variant="success" size="medium" type="button" onclick="openAddDialog()">
                     <wa-icon slot="start" name="plus"></wa-icon>
                     <span th:text="#{form.addProduct}"></span>
                 </wa-button>
             </wa-animation>
         </div>
-        <div class="toolbar-right">
+        <div class="wa-cluster wa-gap-2xs wa-align-items-center">
             <wa-button class="sort-btn" variant="success" size="small" appearance="filled" type="button"
                        hx-get="/products/load?sort=price_asc"
                        hx-target="#productsContainer"
@@ -121,7 +116,7 @@
             </wa-callout>
             <wa-divider></wa-divider>
             <wa-card>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div class="edit-form-grid wa-grid">
                     <wa-input name="id" type="number" th:label="#{form.id}" placeholder="ID" required min="1" size="medium" appearance="outlined">
                         <wa-icon slot="start" name="hashtag"></wa-icon>
                     </wa-input>
@@ -129,7 +124,7 @@
                         <wa-icon slot="start" name="align-left"></wa-icon>
                     </wa-input>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div class="edit-form-grid wa-grid">
                     <wa-input name="vendor" th:label="#{form.vendor}" placeholder="Vendor" required size="medium" appearance="outlined">
                         <wa-icon slot="start" name="user"></wa-icon>
                     </wa-input>

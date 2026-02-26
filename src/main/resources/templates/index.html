@@ -11,19 +11,17 @@
     </header>
 
     <div class="page-card">
-        <div class="toolbar" th:if="${showProductsTable != true}">
-            <wa-button
-                    id="loadBtn"
-                    type="button"
-                    size="large"
-                    pill
-                    variant="brand"
-                    hx-get="/products/load"
-                    hx-target="#productsContainer"
-                    hx-swap="innerHTML">
-                <wa-icon name="spinner" animation="spin"></wa-icon>
-                <span th:text="#{index.loadProducts}"></span>
-            </wa-button>
+        <div class="toolbar load-toolbar" th:if="${showProductsTable != true}">
+            <div hx-get="/products/load"
+                 hx-trigger="click"
+                 hx-target="#productsContainer"
+                 hx-swap="innerHTML"
+                 hx-headers='{"HX-Partial": "productsTableWithButton"}'>
+                <wa-button id="loadBtn" type="button" size="large" pill variant="brand">
+                    <wa-icon name="spinner" class="load-btn-icon"></wa-icon>
+                    <span th:text="#{index.loadProducts}"></span>
+                </wa-button>
+            </div>
         </div>
         <div id="productsContainer">
             <th:block th:if="${showProductsTable == true}" th:insert="~{fragments/products :: productsTableWithButton}"></th:block>
@@ -32,13 +30,53 @@
 </div>
 
 <script>
+    function applyProductsLoaded() {
+        var container = document.getElementById('productsContainer');
+        if (!container) return;
+        var table = container.querySelector('table');
+        if (!table) return;
+        document.body.classList.add('products-loaded');
+        var loadBtn = document.getElementById('loadBtn');
+        if (loadBtn) loadBtn.style.display = 'none';
+        var toolbar = document.querySelector('.load-toolbar');
+        if (toolbar) toolbar.style.display = 'none';
+    }
     document.body.addEventListener('htmx:afterSwap', function (evt) {
-        if (evt.target.id === 'productsContainer') {
-            document.body.classList.add('products-loaded');
-            var loadBtn = document.getElementById('loadBtn');
-            if (loadBtn) loadBtn.remove();
+        if (evt.detail && evt.detail.target && evt.detail.target.id === 'productsContainer') {
+            applyProductsLoaded();
         }
     });
+    document.body.addEventListener('htmx:after:swap', function (evt) {
+        if (evt.detail && evt.detail.target && evt.detail.target.id === 'productsContainer') {
+            applyProductsLoaded();
+        }
+    });
+    (function () {
+        var container = document.getElementById('productsContainer');
+        if (!container) return;
+        if (container.querySelector('table')) {
+            applyProductsLoaded();
+            return;
+        }
+        var observer = new MutationObserver(function () {
+            if (container.querySelector('table')) {
+                applyProductsLoaded();
+            }
+        });
+        observer.observe(container, { childList: true, subtree: true });
+    })();
+    (function () {
+        var btn = document.getElementById('loadBtn');
+        if (!btn) return;
+        var icon = btn.querySelector('wa-icon.load-btn-icon');
+        if (!icon) return;
+        btn.addEventListener('mouseenter', function () {
+            icon.setAttribute('animation', 'spin');
+        });
+        btn.addEventListener('mouseleave', function () {
+            icon.removeAttribute('animation');
+        });
+    })();
 </script>
 </body>
 </html>

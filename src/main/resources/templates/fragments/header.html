@@ -1,19 +1,25 @@
 <header th:fragment="header" class="site-header">
-    <div class="site-header-inner">
-        <nav class="site-nav">
+    <div class="site-header-inner wa-cluster wa-gap-m">
+        <nav class="wa-cluster">
             <wa-button th:href="@{/}" variant="neutral" size="small" appearance="plain" class="header-link">
                 <wa-icon slot="start" name="house"></wa-icon>
                 <span th:text="#{nav.home}"></span>
             </wa-button>
-            <wa-button  hx-get="/products/load"
+            <wa-button hx-get="/products/load"
                         hx-target="#productsContainer"
-                        hx-swap="innerHTML" variant="neutral" size="small" appearance="plain" class="header-link">
+                        hx-swap="innerHTML"
+                        hx-headers='{"HX-Partial": "productsTableWithButton"}'
+                        variant="neutral" size="small" appearance="plain" class="header-link">
                 <wa-icon slot="start" name="list"></wa-icon>
                 <span th:text="#{nav.allProducts}"></span>
             </wa-button>
             <wa-button th:href="@{/search}" variant="neutral" size="small" appearance="plain" class="header-link search-nav" id="headerSearchLink">
                 <wa-icon slot="start" name="magnifying-glass" animation="bounce"></wa-icon>
                 <span th:text="#{nav.search}"></span>
+            </wa-button>
+            <wa-button th:href="@{/dashboard}" th:target="_blank" variant="neutral" size="small" appearance="plain" class="header-link">
+                <wa-icon slot="start" name="chart-line"></wa-icon>
+                <span th:text="#{nav.dashboard}">Dashboard</span>
             </wa-button>
         </nav>
     </div>

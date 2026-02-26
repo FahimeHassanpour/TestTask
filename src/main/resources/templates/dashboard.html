@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body class="page-dashboard">
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page-wrapper dashboard-wrapper">
+    <header class="page-header dashboard-header">
+        <div class="dashboard-header-inner">
+            <h1 class="dashboard-title" th:text="#{dashboard.title}">Dashboard</h1>
+            <p class="page-subtitle dashboard-subtitle" th:text="#{dashboard.subtitle}">Live product stats</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="dashboard-section" aria-labelledby="dashboardStatsHeading">
+        <h2 id="dashboardStatsHeading" class="dashboard-section-title" th:text="#{dashboard.statsTitle}">Overview</h2>
+        <div class="page-card dashboard-card">
+            <div id="dashboardStatsContainer" hx-get="/dashboard/stats" hx-trigger="load" hx-swap="innerHTML" hx-headers='{"HX-Partial": "dashboardStats"}'>
+                <th:block th:replace="~{fragments/dashboard-stats :: dashboardStats}"></th:block>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script th:inline="javascript">
+    (function () {
+        var streamUrl = /*[[@{/dashboard/stream}]]*/ '/dashboard/stream';
+        var eventSource = new EventSource(streamUrl);
+        var badge = document.getElementById('dashboardLiveBadge');
+        eventSource.addEventListener('refresh', function () {
+            if (typeof htmx !== 'undefined') {
+                htmx.ajax('GET', '/dashboard/stats', {
+                    target: '#dashboardStatsContainer',
+                    swap: 'innerHTML',
+                    headers: { 'HX-Partial': 'dashboardStats' }
+                });
+            }
+            if (badge) badge.classList.add('live-pulse');
+            setTimeout(function() { if (badge) badge.classList.remove('live-pulse'); }, 600);
+        });
+        eventSource.onopen = function() { if (badge) badge.classList.add('live-connected'); };
+        eventSource.onerror = function () {
+            eventSource.close();
+            if (badge) badge.classList.remove('live-connected');
+        };
+        window.addEventListener('beforeunload', function () {
+            eventSource.close();
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,16 +1,22 @@
 package com.example.myproject.service
 
 import com.example.myproject.domain.Product
+import com.example.myproject.event.ProductChangedEvent
 import com.example.myproject.repository.ProductRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService(private val productRepository: ProductRepository) {
+class ProductService(
+    private val productRepository: ProductRepository,
+    private val eventPublisher: ApplicationEventPublisher
+) {
 
     fun getAllProducts(): List<Product> = productRepository.findAll()
 
     fun addProduct(product: Product) {
         productRepository.save(product)
+        eventPublisher.publishEvent(ProductChangedEvent(this))
     }
     fun searchByTitle(query: String): List<Product> {
         return if (query.isBlank()) productRepository.findAll()
@@ -20,9 +26,11 @@ class ProductService(private val productRepository: ProductRepository) {
 
     fun updateProduct(product: Product) {
         productRepository.update(product)
+        eventPublisher.publishEvent(ProductChangedEvent(this))
     }
     fun deleteProduct(id: Long) {
         productRepository.deleteById(id)
+        eventPublisher.publishEvent(ProductChangedEvent(this))
     }
 
     fun getProductsSortedByPrice(): List<Product> = productRepository.findAllOrderByPriceAsc()

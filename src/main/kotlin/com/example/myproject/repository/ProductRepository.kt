@@ -122,4 +122,17 @@ class ProductRepository(
             .param("id", id)
             .update()
     }
+
+    fun count(): Long {
+        return jdbcClient.sql("SELECT COUNT(*) FROM products")
+            .query { rs, _ -> rs.getLong(1) }
+            .single()
+    }
+
+    fun averagePrice(): Double? {
+        return jdbcClient.sql("SELECT AVG(price) FROM products")
+            .query { rs, _ -> val v = rs.getDouble(1); if (rs.wasNull()) null else v }
+            .optional()
+            .orElse(null)
+    }
 }

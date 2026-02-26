@@ -1,0 +1,32 @@
+<div th:fragment="dashboardStats" xmlns:th="http://www.thymeleaf.org" class="dashboard-stats-wrapper">
+    <div class="dashboard-stats">
+        <div class="stat-box-cell">
+            <div class="stat-box stat-box--count" aria-label="Product count">
+                <div class="stat-box-accent"></div>
+                <div class="stat-box-body">
+                    <div class="stat-box-inner">
+                        <span class="stat-label" th:text="#{dashboard.productCount}">Product count</span>
+                        <p class="stat-value" th:text="${productCount}">0</p>
+                    </div>
+                    <div class="stat-box-icon">
+                        <wa-icon name="list-ol" aria-hidden="true"></wa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stat-box-cell">
+            <div class="stat-box stat-box--price" aria-label="Average price">
+                <div class="stat-box-accent"></div>
+                <div class="stat-box-body">
+                    <div class="stat-box-inner">
+                        <span class="stat-label" th:text="#{dashboard.averagePrice}">Average price</span>
+                        <p class="stat-value" th:text="${averagePrice != null ? #numbers.formatDecimal(averagePrice, 1, 2) : '-'}">-</p>
+                    </div>
+                    <div class="stat-box-icon">
+                        <wa-icon name="dollar-sign" aria-hidden="true"></wa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head}"></head>
-<body>
+<body class="page-edit">
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div class="page-wrapper page-wrapper--narrow">
-    <header class="page-header">
-        <h1 th:text="#{edit.title}"></h1>
-        <p class="page-subtitle" th:text="#{edit.subtitle}"></p>
+<div class="page-wrapper page-wrapper--narrow page-edit-wrapper">
+    <header class="page-header wa-stack wa-gap-2xs">
+        <h1 class="wa-heading-2xl" th:text="#{edit.title}"></h1>
+        <p class="wa-caption-s wa-color-text-quiet" th:text="#{edit.subtitle}"></p>
     </header>
 
     <div class="page-card">
@@ -20,7 +20,7 @@
             <wa-divider></wa-divider>
 
             <wa-card>
-                <div class="edit-form-grid">
+                <div class="edit-form-grid wa-grid">
                     <wa-input name="title" th:label="#{form.title}" th:value="${product.title}"
                               th:placeholder="#{form.title}" required size="medium" appearance="outlined">
                         <wa-icon slot="start" name="align-left"></wa-icon>
@@ -30,7 +30,7 @@
                         <wa-icon slot="start" name="user"></wa-icon>
                     </wa-input>
                 </div>
-                <div class="edit-form-grid">
+                <div class="edit-form-grid wa-grid">
                     <wa-input name="productType" th:label="#{form.type}" th:value="${product.productType}"
                               th:placeholder="#{form.type}" required size="medium" appearance="outlined">
                         <wa-icon slot="start" name="tag"></wa-icon>
@@ -48,7 +48,7 @@
             </wa-card>
 
             <wa-divider></wa-divider>
-            <div class="form-actions">
+            <div class="form-actions wa-cluster wa-gap-s">
                 <wa-button th:href="@{'/?loadProducts=1'}" variant="neutral" appearance="outlined" type="button" size="medium">
                     <wa-icon slot="start" name="arrow-left"></wa-icon>
                     <span th:text="#{nav.cancel}"></span>
@@ -61,24 +61,5 @@
         </form>
     </div>
 </div>
-
-<style>
-    .edit-form-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 12px;
-        margin-bottom: 12px;
-    }
-    .edit-form-grid wa-input,
-    .edit-form-id wa-callout {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-    .edit-form-id { margin-top: 12px; }
-    .form-actions { display: flex; flex-wrap: wrap; gap: var(--wa-space-s, 8px); align-items: center; }
-    .page-card form wa-card { max-width: 100%; overflow: hidden; }
-</style>
 </body>
 </html>
